@@ -2,11 +2,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head />
-<h:body>
-	<h1>Novo Livro</h1>
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">
+		Novo Livro
+	</ui:define>
+	<ui:define name="conteudo">
 	<h:form>
 		<h:messages id="messages"/>
 		<fieldset>
@@ -75,6 +79,10 @@
 	    </h:outputText>
 	  </h:column>
 	</h:dataTable>
-</h:body>
+	</ui:define>
+	<ui:define name="rodape">
+		<strong>Cadastro de Livro</strong>
+	</ui:define>
+</ui:composition>
 
 </html>
