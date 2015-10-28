@@ -55,7 +55,7 @@ public class LivroBean {
 		}
 	}
 	
-	public String getFormAutor() {
+	public String formAutor() {
 		System.out.println("Chamando o formulário de Autor.");
 		//faces-redirect=true, realizar o direcionamento no lado cliente, atualiza a URL.
 		return "autor?faces-redirect=true";
