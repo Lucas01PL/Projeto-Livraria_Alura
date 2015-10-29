@@ -3,12 +3,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://java.sun.com/jsf/html"
  	  xmlns:f="http://java.sun.com/jsf/core"
- 	  xmlns:ui="http://java.sun.com/jsf/facelets">
+ 	  xmlns:ui="http://java.sun.com/jsf/facelets"
+ 	  xmlns:p="http://primefaces.org/ui">
  	  <h:head>
  	  </h:head>
  	  <h:body>
  	  	<div id="cabecalho">
  	  		<h:graphicImage library="img" name="logo.png" />
+ 	  		<p:themeSwitcher value="#{temaBean.tema}" style="position: absolute; right: 10px">
+ 	  			<f:selectItems value="#{temaBean.temas}" />
+ 	  		</p:themeSwitcher>
+ 	  		<h:form>
+	 	  		<p:menubar>
+	 	  			<p:submenu label="Cadastros">
+	 	  				<p:menuitem action="autor" value="Autor" />
+	 	  				<p:menuitem action="livro" value="Livro" />
+	 	  			</p:submenu>
+	 	  		</p:menubar>
+	 	  	</h:form>	
  	  		<h1>
  	  			<ui:insert name="titulo"></ui:insert>
  	  		</h1>
