@@ -1,5 +1,6 @@
 package br.com.caelum.livraria.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -15,67 +16,104 @@ import br.com.caelum.livraria.modelo.Livro;
 
 @ManagedBean
 @ViewScoped
-public class LivroBean {
+public class LivroBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Livro livro = new Livro();
+
 	private Integer autorId;
 
-	public Livro getLivro() {
-		return livro;
+	private Integer livroId;
+
+	public void setAutorId(Integer autorId) {
+		this.autorId = autorId;
 	}
 
 	public Integer getAutorId() {
 		return autorId;
 	}
 
-	public void setAutorId(Integer autorId) {
-		this.autorId = autorId;
+	public Livro getLivro() {
+		return livro;
 	}
-	
+
+	public Integer getLivroId() {
+		return livroId;
+	}
+
+	public void setLivroId(Integer livroId) {
+		this.livroId = livroId;
+	}
+
+	public List<Livro> getLivros() {
+		return new DAO<Livro>(Livro.class).listaTodos();
+	}
+
 	public List<Autor> getAutores() {
 		return new DAO<Autor>(Autor.class).listaTodos();
 	}
-	
+
 	public List<Autor> getAutoresDoLivro() {
 		return this.livro.getAutores();
+	}
+
+	public void gravarAutor() {
+		Autor autor = new DAO<Autor>(Autor.class).buscaPorId(this.autorId);
+		this.livro.adicionaAutor(autor);
+		System.out.println("Escrito por: " + autor.getNome());
 	}
 
 	public void gravar() {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 
 		if (livro.getAutores().isEmpty()) {
-			//throw new RuntimeException("Livro deve ter pelo menos um Autor.");
-			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor!"));
+			FacesContext.getCurrentInstance().addMessage("autor",
+					new FacesMessage("Livro deve ter pelo menos um Autor."));
 			return;
 		}
-		else
-		{
+
+		if (this.livro.getId() == null) {
 			new DAO<Livro>(Livro.class).adiciona(this.livro);
-			this.livro = new Livro();
+		} else {
+			new DAO<Livro>(Livro.class).atualiza(this.livro);
 		}
-	}
-	
-	public String formAutor() {
-		System.out.println("Chamando o formul·rio de Autor.");
-		//faces-redirect=true, realizar o direcionamento no lado cliente, atualiza a URL.
-		return "autor?faces-redirect=true";
-	}
-	
-	public void gravarAutor() {
-		Autor autor = new DAO<Autor>(Autor.class).buscaPorId(this.autorId);
-		this.livro.adicionaAutor(autor);
-		System.out.println("Autor:"+autor.getNome()+" adicionado com sucesso!");
+
+		this.livro = new Livro();
 	}
 
-	public List<Livro> getLivros() {
-	  return new DAO<Livro>(Livro.class).listaTodos();
+	public void carregar(Livro livro) {
+		System.out.println("Carregando livro " + livro.getTitulo());
+		this.livro = livro;
 	}
-	
-	public void comecarComDigitoUm(FacesContext fc, UIComponent ui, Object value) throws ValidatorException {
+
+	public void remover(Livro livro) {
+		System.out.println("Removendo livro " + livro.getTitulo());
+		new DAO<Livro>(Livro.class).remove(livro);
+	}
+
+	public void removerAutorDoLivro(Autor autor) {
+		this.livro.removeAutor(autor);
+	}
+
+	public String formAutor() {
+		System.out.println("Chamanda do formul√°rio do Autor.");
+		return "autor?faces-redirect=true";
+	}
+
+	public void comecaComDigitoUm(FacesContext fc, UIComponent component,
+			Object value) throws ValidatorException {
+
 		String valor = value.toString();
-		if(!valor.startsWith("1"))
-		{
-			throw new ValidatorException(new FacesMessage("ISBN deve comeÁar com 1 !"));
+		if (!valor.startsWith("1")) {
+			throw new ValidatorException(new FacesMessage(
+					"ISBN deveria come√ßar com 1"));
 		}
+
 	}
+
+	public void carregarLivroPelaId() {
+		this.livro = new DAO<Livro>(Livro.class).buscaPorId(livroId);
+	}
+
 }
