@@ -9,9 +9,8 @@
 	<h:body>
 		<div id="cabecalho">
 			<h:graphicImage library="img" name="logo.png" />
-			<br />
-			<h:outputText value="Seja Bem-Vindo #{sessionScope['usuarioLogado'].email}" />
 			<h:form rendered="#{usuarioLogado != null}">
+            	<h:outputText value="Bem-Vindo #{sessionScope['usuarioLogado'].email}" /> |
             	<h:commandLink value="Logout" action="#{loginBean.deslogar}" />
         	</h:form>
 			<h1>
