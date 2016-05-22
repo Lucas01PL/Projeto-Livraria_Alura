@@ -2,6 +2,7 @@ package br.com.caelum.livraria.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -26,6 +27,8 @@ public class LivroBean implements Serializable {
 
 	private Integer livroId;
 
+	private List<Livro> listaTodos;
+
 	public void setAutorId(Integer autorId) {
 		this.autorId = autorId;
 	}
@@ -47,7 +50,12 @@ public class LivroBean implements Serializable {
 	}
 
 	public List<Livro> getLivros() {
-		return new DAO<Livro>(Livro.class).listaTodos();
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
+		if(this.listaTodos == null)		
+		{
+			this.listaTodos = dao.listaTodos();
+		}
+		return listaTodos;
 	}
 
 	public List<Autor> getAutores() {
@@ -72,11 +80,12 @@ public class LivroBean implements Serializable {
 					new FacesMessage("Livro deve ter pelo menos um Autor."));
 			return;
 		}
-
-		if (this.livro.getId() == null) {
-			new DAO<Livro>(Livro.class).adiciona(this.livro);
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
+		if (this.livro.getId() == null) {			
+			dao.adiciona(this.livro);
+			this.listaTodos = dao.listaTodos();
 		} else {
-			new DAO<Livro>(Livro.class).atualiza(this.livro);
+			dao.atualiza(this.livro);
 		}
 
 		this.livro = new Livro();
@@ -113,7 +122,31 @@ public class LivroBean implements Serializable {
 	}
 
 	public void carregarLivroPelaId() {
-		this.livro = new DAO<Livro>(Livro.class).buscaPorId(livroId);
+		this.livro = new DAO<Livro>(Livro.class).buscaPorId(this.livro.getId());
+	}
+	
+	public boolean precoEhMenor(Object valorColuna, Object filtroDigitado, Locale locale) { // java.util.Locale
+
+        String textoDigitado = (filtroDigitado == null) ? null : filtroDigitado.toString().trim();
+        System.out.println("Filtrando pelo " + textoDigitado + ", Valor do elemento: " + valorColuna);
+        if (textoDigitado == null || textoDigitado.equals("")) 
+        {
+            return true;
+        }
+
+        if (valorColuna == null) 
+        {
+            return false;
+        }
+
+        try {
+            Double precoDigitado = Double.valueOf(textoDigitado);
+            Double precoColuna = (Double) valorColuna;
+            return precoColuna.compareTo(precoDigitado) < 0;
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
 	}
 
 }
