@@ -5,9 +5,9 @@
 O projeto consiste no desenvolvimento de algumas funcionalidades do sistema de uma livraria, como cadastrar os livros e seus autores e verificar o gráfico dos livros vendidos. O projeto não foca nas reais regras de negócio existentes no dia-a-dia, mas por em prática conhecimentos adquiridos.
 
 Este projeto foi desenvolvido durante a realização dos seguintes cursos: 
- - JAVA E JSF I: SUA APLICAÇÃO WEB COM JSF2
- - JAVA E JSF 2 - II: COMPONENTES RICOS COM PRIMEFACES
- - JAVA E JSF 2 - III: INTEGRAÇÃO COM CDI
+ - [JAVA E JSF I: SUA APLICAÇÃO WEB COM JSF2](https://www.alura.com.br/curso-online-jsf)
+ - [JAVA E JSF 2 - II: COMPONENTES RICOS COM PRIMEFACES](https://www.alura.com.br/curso-online-jsf-primefaces)
+ - [JAVA E JSF 2 - III: INTEGRAÇÃO COM CDI](https://www.alura.com.br/curso-online-jsf-cdi)
 
 Os seguintes cursos foram realizado na instituição Alura Cursos Online, plataforma de cursos online da Caelum, a carga horária total é de 48 horas/aulas.
 
